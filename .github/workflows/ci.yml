@@ -1,23 +1,19 @@
-name: ci
+name: Test Docker Secrets
 
 on:
   push:
-    branches: main
 
 jobs:
-  login:
+  test:
     runs-on: ubuntu-latest
+
     steps:
-    
-    - uses: actions/checkout@v4
-    - uses: actions/setup-node@v4
-      with:
-        node-version: '20'
-        cache: 'npm'
-    - run: npm ci
-    - run: npm run build --if-present
-    - run: npm test
+      - name: Print Docker username (safe)
+        run: echo "Username is $DOCKER_USERNAME"
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
 
-    - name: Login to Docker Hub
-      run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
-
+      - name: Print Docker password (NOT recommended)
+        run: echo "Password is $DOCKER_PASSWORD"
+        env:
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
