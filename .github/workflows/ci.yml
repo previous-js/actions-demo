@@ -1,19 +1,14 @@
-# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
-
-name: Node.js CI
+name: ci
 
 on:
   push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+    branches: main
 
 jobs:
-  build:
+  login:
     runs-on: ubuntu-latest
-    
     steps:
+    
     - uses: actions/checkout@v4
     - uses: actions/setup-node@v4
       with:
@@ -23,16 +18,42 @@ jobs:
     - run: npm run build --if-present
     - run: npm test
 
-    - name: Log in to Docker Hub
-      uses: docker/login-action@v3
+    - name: Login to Docker Hub
+      uses: docker/login-action@v4
       with:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
 
-    - name: Build and Push docker image
-      uses: docker/build-push-action@v5
-      with:
-        context: .
-        push: true
-        image: mohammedriahhi/actions-demo
+# on:
+#   push:
+#     branches: [ "main" ]
+#   pull_request:
+#     branches: [ "main" ]
+
+# jobs:
+#   build:
+#     runs-on: ubuntu-latest
+    
+#     steps:
+#     - uses: actions/checkout@v4
+#     - uses: actions/setup-node@v4
+#       with:
+#         node-version: '20'
+#         cache: 'npm'
+#     - run: npm ci
+#     - run: npm run build --if-present
+#     - run: npm test
+
+#     - name: Log in to Docker Hub
+#       uses: docker/login-action@v3
+#       with:
+#         username: ${{ secrets.DOCKER_USERNAME }}
+#         password: ${{ secrets.DOCKER_PASSWORD }}
+
+#     - name: Build and Push docker image
+#       uses: docker/build-push-action@v5
+#       with:
+#         context: .
+#         push: true
+#         image: mohammedriahhi/actions-demo
 
