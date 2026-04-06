@@ -1,19 +1,33 @@
-name: Test Docker Secrets
+name: CI Pipeline
 
+# TRIGGERS
 on:
   push:
+    branches: [main]
+  pull_request:
+    branches: [main]
 
+# JOBS
 jobs:
   test:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest    # The machine to use
 
     steps:
-      - name: Print Docker username (safe)
-        run: echo "Username is ${{ secrets.DOCKER_USERNAME }}"
-        env:
-          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+      - uses: actions/checkout@v4       # Get the code
+      - uses: actions/setup-node@v4     # Install Node.js
+        with:
+          node-version: '20'
+      - run: npm install                # Install deps
+      - run: npm test                   # Run test
 
-      - name: Print Docker password (NOT recommended)
-        run: echo "Password is $DOCKER_PASSWORD"
-        env:
-          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build and push
+        uses: docker/build-push-action@v6
+        with:
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/actions-demo
