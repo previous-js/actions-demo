@@ -9,7 +9,7 @@ jobs:
 
     steps:
       - name: Print Docker username (safe)
-        run: echo "Username is $DOCKER_USERNAME"
+        run: echo "Username is ${{ secrets.DOCKER_USERNAME }}"
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
 
