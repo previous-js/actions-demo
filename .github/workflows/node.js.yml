@@ -36,4 +36,4 @@ jobs:
       with:
         context: . # Directory containing the Dockerfile
         push: true # Pushes the image to the registry
-        tags: ${{ secrets.DOCKERHUB_USERNAME }}/actions-demo:latest
+        tags: mohammedriahhi/actions-demo
