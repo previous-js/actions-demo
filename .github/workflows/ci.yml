@@ -3,10 +3,8 @@ name: ci
 on:
   push:
     branches: [ "main" ]
-  pull:
-    branches: [ "main" ]
 
-  jobs:
+  deployment:
     push_image:
       runs-on: ubuntu-latest
 
