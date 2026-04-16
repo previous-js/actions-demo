@@ -15,7 +15,7 @@ jobs:
   Deploy-Staging:
     runs-on: ubuntu-latest
     environment: Stage
-    needs: Dev
+    needs: Deploy-Dev
 
     steps:
       - name: Deploy to Stage
@@ -24,7 +24,7 @@ jobs:
   Deploy-Production:
     runs-on: ubuntu-latest
     environment: Prod
-    needs: Stage
+    needs: Deploy-Staging
 
     steps:
       - name: Deployed to Prod
