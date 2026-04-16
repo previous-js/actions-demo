@@ -13,14 +13,13 @@ jobs:
         run: echo "Deployed to Dev"
 
   Deploy-Staging:
-    if: github.ref == "refs/heads/staging"
     environment: Stage
     needs: Deploy-Dev
     runs-on: ubuntu-latest
 
     steps:
       - name: Deploy to Stage
-        run: ./deploy.sh --env staging
+        run: echo "Deployed to Stage"
 
   Deploy-Production:
     runs-on: ubuntu-latest
