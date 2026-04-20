@@ -5,28 +5,21 @@ on:
     
 jobs:
   Deploy-Dev:
-    runs-on: ubuntu-latest
-    environment: Dev
-
-    steps:
-      - name: Deploy to Dev
-        run: echo "Deployed to Dev"
+    uses: previous-js/actions-demo/.github/workflows/deploy.yml@main
+    with:
+      environment-name: "Dev"
+      environment-url: "https://www.google.com"
 
   Deploy-Staging:
-    if: github.ref == "refs/heads/staging"
-    environment: Stage
     needs: Deploy-Dev
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Deploy to Stage
-        run: ./deploy.sh --env stag
+    uses: previous-js/actions-demo/.github/workflows/deploy.yml@main
+    with:
+      environment-name: "Stage"
+      environment-url: "https://www.google.com"
 
   Deploy-Production:
-    runs-on: ubuntu-latest
-    environment: Prod
     needs: Deploy-Staging
-
-    steps:
-      - name: Deployed to Prod
-        run: echo "Deployed to Prod"
+    uses: previous-js/actions-demo/.github/workflows/deploy.yml@main
+    with:
+      environment-name: "Prod"
+      environment-url: "https://www.google.com"
